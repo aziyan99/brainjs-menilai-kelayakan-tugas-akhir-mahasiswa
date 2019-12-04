@@ -10,7 +10,7 @@
     <script src="js/jquery.js"></script>
     <script src="js/brain.js"></script>
     <script src="js/materialize.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="js/sweet-alert.js"></script>
     <style>
         .b-left {
             margin-left: 30px;
@@ -417,7 +417,7 @@
                 $('#tidak_layak').html(output.tidak_layak);
                 swal({
                     title: "Nilai Kelayakan",
-                    text: "Layak : " + output.layak + " " + "Tidak Layak : " + output.tidak_layak,
+                    text: "Layak : " + output.layak + " | " + "Tidak Layak : " + output.tidak_layak,
                     icon: "info",
                     buttons: true,
                 })
