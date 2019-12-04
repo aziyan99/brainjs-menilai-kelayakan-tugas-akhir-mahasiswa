@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ai</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/brain.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .b-left {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav class="purple lighten-1">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo b-left">Menilai Kelayakan Tugas Akhir Mahasiswa</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row mt">
+        <div class="col s8">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Nilai </span>
+                    <br>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x1" type="number" class="validate">
+                                    <label for="x1">Abstrak</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x2" type="number" class="validate">
+                                    <label for="x2">Pendahuluan</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x3" type="number" class="validate">
+                                    <label for="x3">Landasan Teori</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x4" type="number" class="validate">
+                                    <label for="x4">Metode Penelitian</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x5" type="number" class="validate">
+                                    <label for="x5">Hasil dan Pembahasan</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x6" type="number" class="validate">
+                                    <label for="x6">Penutup</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="x7" type="number" class="validate">
+                                    <label for="x7">Daftar Pustaka</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <button id="train" class="waves-effect waves-light btn">Nilai</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Nilai Kelayakan</span>
+                    Layak : <p id="layak"></p><br>
+                    Tidak - Layak : <p id="tidak_layak"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#train').click(function () {
+                x1 = $('#x1').val();
+                x2 = $('#x2').val();
+                x3 = $('#x3').val();
+                x4 = $('#x4').val();
+                x5 = $('#x5').val();
+                x6 = $('#x6').val();
+                x7 = $('#x7').val();
+
+                const config = {
+                    binaryThresh: 0.5,
+                    hiddenLayers: [3],
+                    activation: 'sigmoid',
+                    leakyReluAlpha: 0.01,
+                }
+
+                const net = new brain.NeuralNetwork(config)
+
+
+
+                train = net.train([
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.7,
+                            x2: 0.7,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.9,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.7,
+                            x2: 0.7,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.7,
+                            x4: 0.9,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.7,
+                            x2: 0.3,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.3,
+                            x6: 0.3,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.1,
+                            x2: 0.3,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.3,
+                            x6: 0.3,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.7,
+                            x2: 0.9,
+                            x3: 0.7,
+                            x4: 0.9,
+                            x5: 0.9,
+                            x6: 0.7,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.7,
+                            x2: 0.9,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.9,
+                            x7: 0.7
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.9,
+                            x4: 0.7,
+                            x5: 0.9,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            layak: 1
+                        }
+                    },
+
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.7,
+                            x4: 0.7,
+                            x5: 0.3,
+                            x6: 0.3,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.3,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.7,
+                            x6: 0.7,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    },
+                    {
+                        input: {
+                            x1: 0.3,
+                            x2: 0.7,
+                            x3: 0.3,
+                            x4: 0.7,
+                            x5: 0.3,
+                            x6: 0.3,
+                            x7: 0.3
+                        },
+                        output: {
+                            tidak_layak: 1
+                        }
+                    }
+
+                ]);
+
+                var output = net.run(
+                    {
+                        x1: x1,
+                        x2: x2,
+                        x3: x3,
+                        x4: x4,
+                        x5: x5,
+                        x6: x6,
+                        x7: x7
+                    }
+                );
+
+                var data = JSON.stringify(output);
+                $('#layak').html(output.layak);
+                $('#tidak_layak').html(output.tidak_layak);
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
